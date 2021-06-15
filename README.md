@@ -106,6 +106,36 @@ public <T extends Number> List<T> fromArrayToList(T[] a) {
 
 T 에게 상속하는 타입 중 하나가 클래스인 경우 목록에서 첫 번째에 넣어야 한다. 그렇지 않으면 컴파일 타임 오류가 발생한다.
 
+## Wildcards
+
+와일드카드는 Java 에서 물음표로 표시된다. 알 수 없는 타입을 참조하는데 사용된다.  
+와일드카드는 제네릭을 사용할 때 특히 유용하며 매개변수 타입으로 사용할 수 있지만 먼조 고려해야할 중요한 사항이 있다.
+
+Object 는 모든 Java 클래스의 상위 클래스이지만 Object 컬렉션은 어느 컬렉션의 상위 클래스가 아니다.  
+
+예를 들어, List<Object> 는 List<String> 의 상위 클래스가 아니므로 List<Object> 타입의 변수를 List<String> 타입의 변수에 할당하면 컴파일 오류가 발생한다.  
+이는 동일한 컬렉션에 다른 타입을 추가할 때 발생할 수 있는 충돌을 방지하기 위한 것이다.
+동일한 규칙은 타입 및 해당 하위 타입 컬렉션에 적용된다.  
+
+```java
+public static void paintAllBuildings(List<Building> buildings) {
+    buildings.forEach(Building::paint);
+}
+```
+
+예를 들어, House 와 같은 Building 의 하위 타입을 상상해본다면, 비록 House 가 Building 의 하위 타입일지라도 우리는 House 리스트를 paintAllBuildings() 메서드의 매개변수로 사용할 수 없다.  
+House 타입 모든 하위 타입으로 paintAllBuildings() 메서드를 사용해야하는 경우, 다음과 같이 bounded 와일드카드로 작업을 수행할 수 있다.  
+
+```java
+public static void paintAllBuildings(List<? extends Building> buildings) {
+    ...
+}
+```
+
+이제 이 메서드는 Building 타입 및 모든 하위 타입으로 사용할 수 있다. 이를 상한 와일드카드라고 하며, 여기서 Building 타입이 상한이다.
+와일드카드는 알 수 없는 타입이 지정된 타입의 상위 타입이어야 하는 하한으로 지정할 수도 있다.  
+하한은 super 키워드를 사용하여 지정할 수 있으며, 예를 들어 <? super T> 는 T 를 상위 클래스로 하는 알 수 없는 타입을 의미한다.
+
 <hr>
 
 #### References
