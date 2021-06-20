@@ -136,6 +136,45 @@ public static void paintAllBuildings(List<? extends Building> buildings) {
 와일드카드는 알 수 없는 타입이 지정된 타입의 상위 타입이어야 하는 하한으로 지정할 수도 있다.  
 하한은 super 키워드를 사용하여 지정할 수 있으며, 예를 들어 <? super T> 는 T 를 상위 클래스로 하는 알 수 없는 타입을 의미한다.
 
+## Type Erasure
+
+제네릭은 타입 안전을 보장하고 제네릭이 런타임에 오버헤드가 발생시키지 않도록 Java 에 추가되었다.  
+컴파일러는 컴파일 타임에 제네릭에 타입 삭제라고 불리는 프로세스를 적용한다.
+
+타입 삭제는 모든 타입 매개변수를 제거하고 해당 경계 또는 타입 매개변수가 제한되지 않은 경우 Object 로 대체한다.  
+따라서 컴파일 후 바이트코드에는 일반 클래스, 인터페이스 및 메서드만 포함되므로 새로운 타입이 생성되지 않는다.  
+컴파일 타임에 적절한 캐스팅이 Object 타입에도 적용된다.
+
+```java
+public <T> List<T> genericMethod(List<T> list) {
+    return list.stream().collect(Collectors.toList());
+}
+```
+
+제한되지 않은 타입 T 는 다음과 같이 Object 타입으로 대체된다.
+
+```java
+public List<Object> withErasure(List<Object> list) {
+    return list.stream().collect(Collectors.toList());
+}
+```
+
+아래와 같이 타입이 제한되어있는 경우에는
+
+```java
+public <T extends Building> void genericMethod(T t) {
+    ...
+}
+```
+
+컴파일 타임에 타입이 제한된 타입으로 대체된다.
+
+```java
+public void genericMethod(Building t) {
+    ...
+}
+```
+
 <hr>
 
 #### References
