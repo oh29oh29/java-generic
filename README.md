@@ -181,3 +181,4 @@ public void genericMethod(Building t) {
 
 > 웹 문서
 > - [baeldung | The Basics of Java Generics](https://www.baeldung.com/java-generics)
+> - [journaldev | Java Generics Example Tutorial – Generic Method, Class, Interface](https://www.journaldev.com/1663/java-generics-example-method-class-interface#java-generic-class)
